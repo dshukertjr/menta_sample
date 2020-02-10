@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "554388573670",
+    "firebase_url": "https://menta-sample.firebaseio.com",
+    "project_id": "menta-sample",
+    "storage_bucket": "menta-sample.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554388573670:android:9cf522dc2f63ed00ba9a27",
+        "android_client_info": {
+          "package_name": "com.example.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554388573670-m0cr6rkj30htnhjcu6rquda3p50jpf4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsmpCkK2OUqu20eQKK4WH4Cba3SnaKiB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554388573670-m0cr6rkj30htnhjcu6rquda3p50jpf4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

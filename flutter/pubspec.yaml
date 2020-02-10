@@ -1,0 +1,22 @@
+name: sample
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.1.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cloud_firestore: ^0.13.1+1
+  firebase_auth: ^0.15.4
+  firebase_storage: ^3.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
