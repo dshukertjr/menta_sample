@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sample/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:sample/pages/compose_post_page.dart';
 import 'package:sample/pages/edit_profile_page.dart';
+import 'package:sample/repositories/user_repository.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -16,7 +19,13 @@ class HomePage extends StatelessWidget {
               Navigator.push(
                   (context),
                   MaterialPageRoute(
-                    builder: (context) => EditProfilePage(),
+                    builder: (context) => BlocProvider(
+                      create: (context) => EditProfileBloc(
+                        profileRepository:
+                            RepositoryProvider.of<UserRepository>(context),
+                      )..add(LoadUserProfileEvent()),
+                      child: EditProfilePage(),
+                    ),
                   ));
             },
           ),

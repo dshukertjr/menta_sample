@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class User {
@@ -12,6 +13,21 @@ class User {
     @required this.imageUrl,
     @required this.uid,
   });
+
+  User.fromSnapshot(DocumentSnapshot snapshot)
+      : name = snapshot.data == null ? null : snapshot.data['name'],
+        profile = snapshot.data == null ? null : snapshot.data['profile'],
+        imageUrl = snapshot.data == null ? null : snapshot.data['imageUrl'],
+        uid = snapshot.documentID;
+
+  static User fromMap(dynamic map) {
+    return User(
+      name: map['name'],
+      profile: map['profile'],
+      imageUrl: map['imageUrl'],
+      uid: map['uid'],
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {

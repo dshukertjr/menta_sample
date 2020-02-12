@@ -9,7 +9,10 @@ class AuthProvider {
     _signInIfNotSignedIn();
   }
 
-  get firebaseUser => _user;
+  Future<FirebaseUser> currentUser() async {
+    await _signInIfNotSignedIn();
+    return _user;
+  }
 
   get onAuthStateChanged => _auth.onAuthStateChanged;
 
@@ -20,7 +23,8 @@ class AuthProvider {
   Future<void> _signInIfNotSignedIn() async {
     final user = await _auth.currentUser();
     if (user == null) {
-      return _auth.signInAnonymously();
+      await _auth.signInAnonymously();
     }
+    _user = await _auth.currentUser();
   }
 }
