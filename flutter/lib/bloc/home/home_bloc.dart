@@ -17,8 +17,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final UserRepository userRepository;
 
   HomeBloc({
-    this.postRepository,
-    this.userRepository,
+    @required this.postRepository,
+    @required this.userRepository,
   });
 
   List<Post> _posts;
@@ -45,15 +45,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _mapSetupHomeEventToState() async* {
-    postRepository.postsStream().listen((posts) {
+    _postsListener?.cancel();
+    _postsListener = postRepository.postsStream().listen((posts) {
       _posts = posts;
       add(UpdateHomeEvent());
     });
 
-    userRepository.onAuthStateChanged().listen((firebaseUser) {
-      userRepository.userStream(firebaseUser.uid).listen((user) {
+    _onAuthStateChangedListener?.cancel();
+    _onAuthStateChangedListener =
+        userRepository.onAuthStateChanged().listen((firebaseUser) {
+      _userListener?.cancel();
+      _userListener =
+          userRepository.userStream(firebaseUser.uid).listen((user) {
         _user = user;
-        add(UpdateHomeEvent());
+        if (_posts != null) {
+          add(UpdateHomeEvent());
+        }
       });
     });
   }
