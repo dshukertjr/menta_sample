@@ -55,13 +55,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _onAuthStateChangedListener =
         userRepository.onAuthStateChanged().listen((firebaseUser) {
       _userListener?.cancel();
-      _userListener =
-          userRepository.userStream(firebaseUser.uid).listen((user) {
-        _user = user;
-        if (_posts != null) {
-          add(UpdateHomeEvent());
-        }
-      });
+      if (firebaseUser != null) {
+        _userListener =
+            userRepository.userStream(firebaseUser.uid).listen((user) {
+          _user = user;
+          if (_posts != null) {
+            add(UpdateHomeEvent());
+          }
+        });
+      }
     });
   }
 
