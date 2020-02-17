@@ -19,38 +19,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('プロフィール編集'),
-        actions: <Widget>[
-          BlocBuilder<EditProfileBloc, EditProfileState>(
-              builder: (context, state) {
-            if (state is LoadedProfileState) {
-              final user = state.user;
-              return FlatButton(
-                textColor: Colors.white,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.check),
-                    Text('保存'),
-                  ],
-                ),
-                onPressed: () {
-                  final newUser = User(
-                    uid: user.uid,
-                    name: _nameController.text,
-                    profile: _profileController.text,
-                    imageUrl: user.imageUrl,
-                  );
-                  BlocProvider.of<EditProfileBloc>(context).add(
-                    SaveProfileEvent(
-                      user: newUser,
-                    ),
-                  );
-                },
-              );
-            } else {
-              return Container();
-            }
-          }),
-        ],
       ),
       body: BlocListener<EditProfileBloc, EditProfileState>(
         condition: (oldState, state) {
@@ -99,6 +67,39 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 decoration: InputDecoration(
                   labelText: 'プロフィール',
                 ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: BlocBuilder<EditProfileBloc, EditProfileState>(
+                    builder: (context, state) {
+                  if (state is LoadedProfileState) {
+                    final user = state.user;
+                    return RaisedButton(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Icon(Icons.check),
+                          Text('保存'),
+                        ],
+                      ),
+                      onPressed: () {
+                        final newUser = User(
+                          uid: user.uid,
+                          name: _nameController.text,
+                          profile: _profileController.text,
+                          imageUrl: user.imageUrl,
+                        );
+                        BlocProvider.of<EditProfileBloc>(context).add(
+                          SaveProfileEvent(
+                            user: newUser,
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
               ),
             ],
           );

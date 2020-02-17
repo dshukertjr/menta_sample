@@ -26,17 +26,13 @@ class MyApp extends StatelessWidget {
           inputDecorationTheme: InputDecorationTheme(
             border: OutlineInputBorder(),
           ),
+          buttonTheme: ButtonThemeData(
+            textTheme: ButtonTextTheme.primary,
+          ),
           snackBarTheme: SnackBarThemeData(
             behavior: SnackBarBehavior.floating,
           ),
         ),
-        // home: BlocProvider<HomeBloc>(
-        //   create: (context) => HomeBloc(
-        //     userRepository: RepositoryProvider.of<UserRepository>(context),
-        //     postRepository: RepositoryProvider.of<PostRepository>(context),
-        //   )..add(SetupHomeEvent()),
-        //   child: HomePage(),
-        // ),
         home: TabPage(),
       ),
     );
