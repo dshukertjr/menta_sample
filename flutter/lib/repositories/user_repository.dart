@@ -23,6 +23,8 @@ class UserRepository {
   }
 
   Stream<User> userStream(String uid) {
-    return _firestoreProfider.userDocStream(uid).map(User.fromMap);
+    return _firestoreProfider
+        .userDocStream(uid)
+        .map((userDoc) => User.fromMap(userDoc.data));
   }
 }

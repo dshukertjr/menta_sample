@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sample/bloc/compose_post/compose_post_bloc.dart';
 import 'package:sample/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:sample/bloc/home/home_bloc.dart';
+import 'package:sample/bloc/profile/profile_bloc.dart';
 import 'package:sample/pages/compose_post_page.dart';
 import 'package:sample/pages/edit_profile_page.dart';
 import 'package:sample/pages/home_page.dart';
+import 'package:sample/pages/profile_page.dart';
 import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/repositories/user_repository.dart';
 import 'package:tab_scaffold/tab_scaffold.dart';
@@ -37,11 +39,11 @@ class _TabPageState extends State<TabPage> {
           ),
           child: ComposePostPage(),
         ),
-        BlocProvider<EditProfileBloc>(
-          create: (context) => EditProfileBloc(
-            profileRepository: RepositoryProvider.of<UserRepository>(context),
-          )..add(LoadUserProfileEvent()),
-          child: EditProfilePage(),
+        BlocProvider<ProfileBloc>(
+          create: (context) => ProfileBloc(
+            userRepository: RepositoryProvider.of<UserRepository>(context),
+          )..add(LoadProfileEvent()),
+          child: ProfilePage(),
         ),
       ],
       bottomNavigationBar: BottomAppBar(
