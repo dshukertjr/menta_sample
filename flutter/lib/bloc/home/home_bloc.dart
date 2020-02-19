@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sample/models/post.dart';
 import 'package:sample/models/user.dart';
+import 'package:sample/pages/profile_page.dart';
 import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/repositories/user_repository.dart';
 

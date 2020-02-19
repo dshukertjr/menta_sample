@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:sample/models/post.dart';
 import 'package:sample/models/user.dart';
 
 class FirestoreProvider {
@@ -10,6 +12,10 @@ class FirestoreProvider {
 
   Stream<DocumentSnapshot> userDocStream(String uid) {
     return _firestore.document('users/$uid').snapshots();
+  }
+
+  Future<DocumentSnapshot> userDoc(String uid) {
+    return _firestore.document('users/$uid').get();
   }
 
   Future<void> updateProfile(User user) {
@@ -24,5 +30,18 @@ class FirestoreProvider {
         .orderBy('createdAt', descending: true)
         .limit(limit)
         .snapshots();
+  }
+
+  String getNewPostDocumentId() {
+    return _firestore.collection('posts').document().documentID;
+  }
+
+  Future<void> submitPost({
+    @required Post post,
+    @required String documentId,
+  }) async {
+    return _firestore
+        .document('posts/$documentId')
+        .setData(post.toMap(), merge: true);
   }
 }

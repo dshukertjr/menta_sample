@@ -25,12 +25,20 @@ class ComposePostBloc extends Bloc<ComposePostEvent, ComposePostState> {
     ComposePostEvent event,
   ) async* {
     if (event is ComposeEvent) {
-      yield* _mapComposeEventToState();
+      yield* _mapComposeEventToState(
+        text: event.text,
+        imageFile: event.imageFile,
+      );
     }
   }
 
   Stream<ComposePostState> _mapComposeEventToState(
-      {String text, File imageFile}) async* {
+      {@required String text, @required File imageFile}) async* {
     yield SubmittingPostState();
+    await postRepository.submitPost(
+      text: text,
+      imageFile: imageFile,
+    );
+    yield ComposePostInitial();
   }
 }

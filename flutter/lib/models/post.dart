@@ -14,7 +14,7 @@ class Post {
     @required this.imageUrl,
     @required this.text,
     @required this.likeArray,
-    @required this.createdAt,
+    this.createdAt,
   });
 
   static Post fromSnapshot(DocumentSnapshot snapshot) {
@@ -31,5 +31,31 @@ class Post {
           ? null
           : snapshot.data['createdAt'].toDate(),
     );
+  }
+
+  Post copyWith({
+    User user,
+    String imageUrl,
+    String text,
+    List<String> likeArray,
+    DateTime createdAt,
+  }) {
+    return Post(
+      user: user ?? this.user,
+      imageUrl: imageUrl ?? this.imageUrl,
+      text: text ?? this.text,
+      likeArray: likeArray ?? this.likeArray,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'user': user.toMap(),
+      'imageUrl': imageUrl,
+      'text': text,
+      'likeArray': [],
+      'createdAt': createdAt == null ? FieldValue.serverTimestamp() : createdAt,
+    };
   }
 }
