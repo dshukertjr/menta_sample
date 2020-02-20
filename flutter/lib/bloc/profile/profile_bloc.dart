@@ -18,6 +18,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileState get initialState => ProfileInitial();
 
   StreamSubscription<User> _userListener;
+  User _user;
+  bool _isTheirOwnProfile;
 
   @override
   Stream<ProfileState> mapEventToState(
@@ -26,28 +28,37 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is LoadProfileEvent) {
       yield* _mapLoadProfileEventToState(event.uid);
     } else if (event is UpdateProfileEvent) {
-      yield* _mapUpdateProfileEventToState(event.user);
+      yield* _mapUpdateProfileEventToState();
     }
   }
 
   Stream<ProfileState> _mapLoadProfileEventToState([String uid]) async* {
     if (uid == null) {
+      // if uid is null, the user is getting their own profile
+      _isTheirOwnProfile = true;
       userRepository.onAuthStateChanged().listen((firebaseUser) {
         _userListener?.cancel();
         if (firebaseUser?.uid != null) {
-          _userListener = userRepository
-              .userStream(firebaseUser.uid)
-              .listen((user) => add(UpdateProfileEvent(user)));
+          _userListener =
+              userRepository.userStream(firebaseUser.uid).listen((user) {
+            _user = user;
+            add(UpdateProfileEvent());
+          });
         }
       });
     } else {
-      userRepository
-          .userStream(uid)
-          .listen((user) => add(UpdateProfileEvent(user)));
+      _isTheirOwnProfile = false;
+      userRepository.userStream(uid).listen((user) {
+        _user = user;
+        add(UpdateProfileEvent());
+      });
     }
   }
 
-  Stream<ProfileState> _mapUpdateProfileEventToState(User user) async* {
-    yield LoadedProfileState(user: user);
+  Stream<ProfileState> _mapUpdateProfileEventToState() async* {
+    yield LoadedProfileState(
+      user: _user,
+      isTheirOwnProfile: _isTheirOwnProfile,
+    );
   }
 }

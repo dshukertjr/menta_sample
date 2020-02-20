@@ -49,13 +49,19 @@ class _HomeCell extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ProfileImage(
-                user: post.user,
+              Row(
+                children: <Widget>[
+                  ProfileImage(
+                    user: post.user,
+                  ),
+                  SizedBox(width: 12),
+                  Text(post.user.name),
+                ],
               ),
-              SizedBox(width: 12),
-              Text(post.user.name),
+              Text(post.text),
             ],
           ),
         ),

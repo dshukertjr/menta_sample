@@ -8,6 +8,7 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class LoadProfileEvent extends ProfileEvent {
+  // if uid is null, get the user's profile
   final String uid;
 
   LoadProfileEvent({this.uid});
@@ -16,11 +17,4 @@ class LoadProfileEvent extends ProfileEvent {
   List<Object> get props => [uid];
 }
 
-class UpdateProfileEvent extends ProfileEvent {
-  final User user;
-
-  UpdateProfileEvent(this.user);
-
-  @override
-  List<Object> get props => [user];
-}
+class UpdateProfileEvent extends ProfileEvent {}

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sample/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:sample/bloc/profile/profile_bloc.dart';
+import 'package:sample/pages/edit_profile_page.dart';
+import 'package:sample/repositories/user_repository.dart';
 import 'package:sample/widgets/profile_image.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -10,6 +13,35 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('プロフィール'),
+        actions: <Widget>[
+          BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state is LoadedProfileState && state.isTheirOwnProfile) {
+                return FlatButton(
+                  textColor: Colors.white,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider<EditProfileBloc>(
+                          create: (context) => EditProfileBloc(
+                            userRepository:
+                                RepositoryProvider.of<UserRepository>(context),
+                          ),
+                          child: EditProfilePage(
+                            user: state.user,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text('編集する'),
+                );
+              }
+              return Container();
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
@@ -29,16 +61,19 @@ class ProfilePage extends StatelessWidget {
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                ProfileImage(user: user),
+                                ProfileImage(
+                                  user: user,
+                                  size: 100,
+                                ),
                                 SizedBox(width: 12),
                                 Text(
-                                  user.name ?? '',
+                                  user?.name ?? '',
                                   style: Theme.of(context).textTheme.headline,
                                 ),
                               ],
                             ),
                             SizedBox(height: 8),
-                            Text(user.profile ?? ''),
+                            Text(user?.profile ?? ''),
                           ],
                         ),
                       ),

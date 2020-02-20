@@ -7,8 +7,6 @@ abstract class EditProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadUserProfileEvent extends EditProfileEvent {}
-
 class ChangeProfileImageEvent extends EditProfileEvent {
   final File profileImageFile;
 

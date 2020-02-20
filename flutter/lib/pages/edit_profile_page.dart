@@ -5,6 +5,9 @@ import 'package:sample/models/user.dart';
 import 'package:sample/widgets/profile_image.dart';
 
 class EditProfilePage extends StatefulWidget {
+  final User user;
+
+  const EditProfilePage({Key key, @required this.user}) : super(key: key);
   @override
   _EditProfilePageState createState() => _EditProfilePageState();
 }
@@ -22,7 +25,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       body: BlocListener<EditProfileBloc, EditProfileState>(
         condition: (oldState, state) {
-          if (oldState is SavingProfileState && state is LoadedProfileState) {
+          if (oldState is SavingProfileState && state is EditProfileInitial) {
             return true;
           }
           return false;
@@ -31,87 +34,80 @@ class _EditProfilePageState extends State<EditProfilePage> {
           Scaffold.of(context)
               .showSnackBar(SnackBar(content: Text('プロフィールが更新されました')));
         },
-        child: BlocBuilder<EditProfileBloc, EditProfileState>(
-            builder: (context, state) {
-          if (state is EditProfileInitial) {
-            return Center(child: CircularProgressIndicator());
-          }
-          return ListView(
-            padding: EdgeInsets.all(12),
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  ProfileImage(
-                    onTap: () {},
-                    user: User(
-                        name: 'aaa',
-                        imageUrl: '',
-                        profile: 'dfasfda',
-                        uid: 'dsfadsa'),
-                  ),
-                  spacer,
-                  Expanded(
-                    child: TextFormField(
-                      controller: _nameController,
-                      decoration: InputDecoration(
-                        labelText: 'ユーザー名',
-                      ),
+        child: ListView(
+          padding: EdgeInsets.all(12),
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                ProfileImage(
+                  onTap: () {},
+                  user: User(
+                      name: 'aaa',
+                      imageUrl: '',
+                      profile: 'dfasfda',
+                      uid: 'dsfadsa'),
+                ),
+                spacer,
+                Expanded(
+                  child: TextFormField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: 'ユーザー名',
                     ),
                   ),
-                ],
-              ),
-              spacer,
-              TextFormField(
-                controller: _profileController,
-                maxLines: null,
-                decoration: InputDecoration(
-                  labelText: 'プロフィール',
                 ),
+              ],
+            ),
+            spacer,
+            TextFormField(
+              controller: _profileController,
+              maxLines: null,
+              decoration: InputDecoration(
+                labelText: 'プロフィール',
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: BlocBuilder<EditProfileBloc, EditProfileState>(
-                    builder: (context, state) {
-                  if (state is LoadedProfileState) {
-                    final user = state.user;
-                    return RaisedButton(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Icon(Icons.check),
-                          Text('保存'),
-                        ],
-                      ),
-                      onPressed: () {
-                        final newUser = User(
-                          uid: user.uid,
-                          name: _nameController.text,
-                          profile: _profileController.text,
-                          imageUrl: user.imageUrl,
-                        );
-                        BlocProvider.of<EditProfileBloc>(context).add(
-                          SaveProfileEvent(
-                            user: newUser,
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return Container();
-                  }
-                }),
-              ),
-            ],
-          );
-        }),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: BlocBuilder<EditProfileBloc, EditProfileState>(
+                  builder: (context, state) {
+                if (state is EditProfileInitial) {
+                  return RaisedButton(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(Icons.check),
+                        Text('保存'),
+                      ],
+                    ),
+                    onPressed: () {
+                      final newUser = User(
+                        uid: widget.user.uid,
+                        name: _nameController.text,
+                        profile: _profileController.text,
+                        imageUrl: widget.user.imageUrl,
+                      );
+                      BlocProvider.of<EditProfileBloc>(context).add(
+                        SaveProfileEvent(
+                          user: newUser,
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   @override
   void initState() {
-    _nameController = TextEditingController();
-    _profileController = TextEditingController();
+    _nameController = TextEditingController(text: widget.user?.name);
+    _profileController = TextEditingController(text: widget.user?.profile);
     super.initState();
   }
 

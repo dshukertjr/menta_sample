@@ -11,9 +11,9 @@ part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  final UserRepository profileRepository;
+  final UserRepository userRepository;
 
-  EditProfileBloc({@required this.profileRepository});
+  EditProfileBloc({@required this.userRepository});
 
   @override
   EditProfileState get initialState => EditProfileInitial();
@@ -22,18 +22,11 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   Stream<EditProfileState> mapEventToState(
     EditProfileEvent event,
   ) async* {
-    if (event is LoadUserProfileEvent) {
-      yield* _mapLoadUserProfileEventToState();
-    } else if (event is ChangeProfileImageEvent) {
+    if (event is ChangeProfileImageEvent) {
       yield* _mapChangeProfileImageEventToState(event.profileImageFile);
     } else if (event is SaveProfileEvent) {
       yield* _mapSaveProfileEventToState(event.user);
     }
-  }
-
-  Stream<EditProfileState> _mapLoadUserProfileEventToState() async* {
-    final user = await profileRepository.getUser();
-    yield LoadedProfileState(user: user);
   }
 
   Stream<EditProfileState> _mapChangeProfileImageEventToState(
@@ -41,7 +34,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   Stream<EditProfileState> _mapSaveProfileEventToState(User user) async* {
     yield SavingProfileState();
-    profileRepository.saveUserProfile(user);
-    yield LoadedProfileState(user: user);
+    userRepository.saveUserProfile(user);
+    yield EditProfileInitial();
   }
 }

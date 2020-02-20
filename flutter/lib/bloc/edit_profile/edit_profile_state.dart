@@ -8,13 +8,4 @@ abstract class EditProfileState extends Equatable {
 
 class EditProfileInitial extends EditProfileState {}
 
-class LoadedProfileState extends EditProfileState {
-  final User user;
-
-  LoadedProfileState({this.user});
-
-  @override
-  List<Object> get props => [user];
-}
-
 class SavingProfileState extends EditProfileState {}

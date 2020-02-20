@@ -11,8 +11,12 @@ class ProfileInitial extends ProfileState {}
 
 class LoadedProfileState extends ProfileState {
   final User user;
+  final bool isTheirOwnProfile;
 
-  LoadedProfileState({@required this.user});
+  LoadedProfileState({
+    @required this.user,
+    @required this.isTheirOwnProfile,
+  });
 
   @override
   List<Object> get props => [user];

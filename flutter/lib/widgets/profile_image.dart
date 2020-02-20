@@ -23,7 +23,7 @@ class ProfileImage extends StatelessWidget {
         child: Material(
           child: InkWell(
             onTap: onTap,
-            child: user.imageUrl == null
+            child: user?.imageUrl == null
                 ? _NoImage(size)
                 : CachedNetworkImage(
                     imageUrl: user.imageUrl,
@@ -51,7 +51,7 @@ class _NoImage extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Transform.translate(
-          offset: Offset(0, 10),
+          offset: Offset(0, size / 5),
           child: Icon(
             Icons.person,
             color: Colors.white,
