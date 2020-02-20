@@ -21,5 +21,9 @@ class LoadedHomeState extends HomeState {
   });
 
   @override
-  List<Object> get props => [posts, user, loadingMorePosts];
+  List<Object> get props => [
+        posts,
+        user,
+        loadingMorePosts,
+      ];
 }

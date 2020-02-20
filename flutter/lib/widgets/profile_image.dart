@@ -1,6 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sample/bloc/profile/profile_bloc.dart';
 import 'package:sample/models/user.dart';
+import 'package:sample/pages/profile_page.dart';
+import 'package:sample/repositories/post_repository.dart';
+import 'package:sample/repositories/user_repository.dart';
 
 class ProfileImage extends StatelessWidget {
   final double size;
@@ -22,7 +27,24 @@ class ProfileImage extends StatelessWidget {
       child: ClipOval(
         child: Material(
           child: InkWell(
-            onTap: onTap,
+            onTap: onTap == null
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider<ProfileBloc>(
+                          create: (context) => ProfileBloc(
+                            userRepository:
+                                RepositoryProvider.of<UserRepository>(context),
+                            postRepository:
+                                RepositoryProvider.of<PostRepository>(context),
+                          )..add(LoadProfileEvent(uid: user.uid)),
+                          child: ProfilePage(),
+                        ),
+                      ),
+                    );
+                  }
+                : onTap,
             child: user?.imageUrl == null
                 ? _NoImage(size)
                 : CachedNetworkImage(

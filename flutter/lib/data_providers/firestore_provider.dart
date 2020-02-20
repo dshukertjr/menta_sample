@@ -49,6 +49,7 @@ class FirestoreProvider {
     return _firestore
         .collection('posts')
         .where('user.uid', isEqualTo: uid)
+        .orderBy('createdAt', descending: true)
         .snapshots();
   }
 }

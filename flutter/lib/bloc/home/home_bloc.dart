@@ -74,4 +74,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     yield LoadedHomeState(
         posts: _posts, user: _user, loadingMorePosts: _loadingMorePosts);
   }
+
+  @override
+  Future<void> close() {
+    _postsListener?.cancel();
+    _userListener?.cancel();
+    _onAuthStateChangedListener?.cancel();
+    return super.close();
+  }
 }

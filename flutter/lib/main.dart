@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample/bloc/home/home_bloc.dart';
-import 'package:sample/pages/home_page.dart';
 import 'package:sample/pages/tab_page.dart';
 import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/repositories/user_repository.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -36,5 +37,25 @@ class MyApp extends StatelessWidget {
         home: TabPage(),
       ),
     );
+  }
+}
+
+class SimpleBlocDelegate extends BlocDelegate {
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onEvent(Bloc bloc, Object event) {
+    super.onEvent(bloc, event);
+    print(event);
+  }
+
+  @override
+  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+    super.onError(bloc, error, stacktrace);
+    print('$error, $stacktrace');
   }
 }

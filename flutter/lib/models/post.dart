@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:sample/models/user.dart';
 
 class Post {
+  final String id;
   final User user;
   final String imageUrl;
   final String text;
@@ -10,6 +11,7 @@ class Post {
   final DateTime createdAt;
 
   Post({
+    @required this.id,
     @required this.user,
     @required this.imageUrl,
     @required this.text,
@@ -19,6 +21,7 @@ class Post {
 
   static Post fromSnapshot(DocumentSnapshot snapshot) {
     return Post(
+      id: snapshot.documentID,
       user: User.fromMap(snapshot.data['user']),
       imageUrl: snapshot.data['imageUrl'],
       text: snapshot.data['text'],
@@ -34,6 +37,7 @@ class Post {
   }
 
   Post copyWith({
+    String id,
     User user,
     String imageUrl,
     String text,
@@ -41,6 +45,7 @@ class Post {
     DateTime createdAt,
   }) {
     return Post(
+      id: id ?? this.id,
       user: user ?? this.user,
       imageUrl: imageUrl ?? this.imageUrl,
       text: text ?? this.text,

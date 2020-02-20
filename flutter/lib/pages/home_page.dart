@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sample/bloc/home/home_bloc.dart';
 import 'package:sample/models/post.dart';
+import 'package:sample/widgets/post_cell.dart';
 import 'package:sample/widgets/profile_image.dart';
 
 class HomePage extends StatelessWidget {
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
             return ListView.builder(
               itemBuilder: (context, index) {
                 final post = posts[index];
-                return _HomeCell(post);
+                return PostCell(post);
               },
               itemCount: posts.length,
             );
@@ -31,48 +32,6 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
-    );
-  }
-}
-
-class _HomeCell extends StatelessWidget {
-  const _HomeCell(
-    this.post, {
-    Key key,
-  }) : super(key: key);
-
-  final Post post;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  ProfileImage(
-                    user: post.user,
-                  ),
-                  SizedBox(width: 12),
-                  Text(post.user.name),
-                ],
-              ),
-              Text(post.text),
-            ],
-          ),
-        ),
-        AspectRatio(
-          aspectRatio: 1,
-          child: CachedNetworkImage(
-            imageUrl: post.imageUrl,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ],
     );
   }
 }

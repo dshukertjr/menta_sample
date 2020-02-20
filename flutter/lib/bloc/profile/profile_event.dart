@@ -11,7 +11,7 @@ class LoadProfileEvent extends ProfileEvent {
   // if uid is null, get the user's profile
   final String uid;
 
-  LoadProfileEvent({this.uid});
+  LoadProfileEvent({@required this.uid});
 
   @override
   List<Object> get props => [uid];

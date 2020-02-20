@@ -30,6 +30,7 @@ class PostRepository {
     final imageUrl = await _storageProvider.uploadPostImage(
         imageFile: imageFile, documentId: documentId, uid: firebaseUser.uid);
     final post = Post(
+      id: null,
       imageUrl: imageUrl,
       text: text,
       likeArray: [],

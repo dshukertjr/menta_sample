@@ -82,4 +82,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       posts: _userPosts,
     );
   }
+
+  @override
+  Future<void> close() {
+    _userListener?.cancel();
+    _userPostsListener?.cancel();
+    return super.close();
+  }
 }

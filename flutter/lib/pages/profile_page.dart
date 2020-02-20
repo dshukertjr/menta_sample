@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sample/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:sample/bloc/profile/profile_bloc.dart';
 import 'package:sample/pages/edit_profile_page.dart';
+import 'package:sample/pages/single_post_page.dart';
 import 'package:sample/repositories/user_repository.dart';
+import 'package:sample/widgets/post_image.dart';
 import 'package:sample/widgets/profile_image.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -66,6 +68,7 @@ class ProfilePage extends StatelessWidget {
                                 ProfileImage(
                                   user: user,
                                   size: 100,
+                                  onTap: () {}, // タップしても他のページにいかないようにからのメソッドが必要
                                 ),
                                 SizedBox(width: 12),
                                 Text(
@@ -94,10 +97,17 @@ class ProfilePage extends StatelessWidget {
                       final post = posts[index];
                       return InkWell(
                         onTap: () {
-                          // TODO: open individual post on tap
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SinglePostPage(
+                                post: post,
+                              ),
+                            ),
+                          );
                         },
-                        child: CachedNetworkImage(
-                          imageUrl: post.imageUrl,
+                        child: PostImage(
+                          post: post,
                           fit: BoxFit.cover,
                         ),
                       );

@@ -21,10 +21,6 @@ class User {
         uid = snapshot.documentID;
 
   static User fromMap(dynamic map) {
-    print('inside user model');
-
-    print(map);
-
     return User(
       name: map['name'],
       profile: map['profile'],
