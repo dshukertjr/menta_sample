@@ -44,4 +44,11 @@ class FirestoreProvider {
         .document('posts/$documentId')
         .setData(post.toMap(), merge: true);
   }
+
+  Stream<QuerySnapshot> userPostsStream(String uid) {
+    return _firestore
+        .collection('posts')
+        .where('user.uid', isEqualTo: uid)
+        .snapshots();
+  }
 }

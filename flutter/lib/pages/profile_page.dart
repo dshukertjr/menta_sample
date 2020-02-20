@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sample/bloc/edit_profile/edit_profile_bloc.dart';
@@ -49,6 +50,7 @@ class ProfilePage extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           } else if (state is LoadedProfileState) {
             final user = state.user;
+            final posts = state.posts;
             return CustomScrollView(
               slivers: <Widget>[
                 SliverList(
@@ -78,6 +80,29 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                SliverGrid(
+                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 150,
+                    mainAxisSpacing: 0,
+                    crossAxisSpacing: 0,
+                    childAspectRatio: 1,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final post = posts[index];
+                      return InkWell(
+                        onTap: () {
+                          // TODO: open individual post on tap
+                        },
+                        child: CachedNetworkImage(
+                          imageUrl: post.imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                    childCount: posts.length,
                   ),
                 ),
               ],

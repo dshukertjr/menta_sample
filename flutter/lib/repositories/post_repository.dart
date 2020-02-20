@@ -37,4 +37,9 @@ class PostRepository {
     );
     return _firestoreProvider.submitPost(post: post, documentId: documentId);
   }
+
+  Stream<List<Post>> userPostsStream(String uid) {
+    return _firestoreProvider.userPostsStream(uid).map<List<Post>>(
+        (snapshot) => snapshot.documents.map<Post>(Post.fromSnapshot).toList());
+  }
 }

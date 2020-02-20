@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sample/models/post.dart';
 import 'package:sample/models/user.dart';
+import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/repositories/user_repository.dart';
 
 part 'profile_event.dart';
@@ -11,15 +13,21 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final UserRepository userRepository;
+  final PostRepository postRepository;
 
-  ProfileBloc({@required this.userRepository});
+  ProfileBloc({
+    @required this.userRepository,
+    @required this.postRepository,
+  });
 
   @override
   ProfileState get initialState => ProfileInitial();
 
   StreamSubscription<User> _userListener;
+  StreamSubscription<List<Post>> _userPostsListener;
   User _user;
   bool _isTheirOwnProfile;
+  List<Post> _userPosts = [];
 
   @override
   Stream<ProfileState> mapEventToState(
@@ -43,6 +51,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               userRepository.userStream(firebaseUser.uid).listen((user) {
             _user = user;
             add(UpdateProfileEvent());
+            _userPostsListener?.cancel();
+            _userPostsListener =
+                postRepository.userPostsStream(_user.uid).listen((posts) {
+              _userPosts = posts;
+              add(UpdateProfileEvent());
+            });
           });
         }
       });
@@ -51,6 +65,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       userRepository.userStream(uid).listen((user) {
         _user = user;
         add(UpdateProfileEvent());
+        _userPostsListener?.cancel();
+        _userPostsListener =
+            postRepository.userPostsStream(_user.uid).listen((posts) {
+          _userPosts = posts;
+          add(UpdateProfileEvent());
+        });
       });
     }
   }
@@ -59,6 +79,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     yield LoadedProfileState(
       user: _user,
       isTheirOwnProfile: _isTheirOwnProfile,
+      posts: _userPosts,
     );
   }
 }

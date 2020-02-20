@@ -41,8 +41,9 @@ class _TabPageState extends State<TabPage> {
         ),
         BlocProvider<ProfileBloc>(
           create: (context) => ProfileBloc(
-            userRepository: RepositoryProvider.of<UserRepository>(context),
-          )..add(LoadProfileEvent()),
+              userRepository: RepositoryProvider.of<UserRepository>(context),
+              postRepository: RepositoryProvider.of<PostRepository>(context))
+            ..add(LoadProfileEvent()),
           child: ProfilePage(),
         ),
       ],
