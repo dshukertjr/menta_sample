@@ -43,4 +43,8 @@ class PostRepository {
     return _firestoreProvider.userPostsStream(uid).map<List<Post>>(
         (snapshot) => snapshot.documents.map<Post>(Post.fromSnapshot).toList());
   }
+
+  Future<void> deletePost(Post post) {
+    return _firestoreProvider.deletePost(post);
+  }
 }

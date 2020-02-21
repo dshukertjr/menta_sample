@@ -52,4 +52,8 @@ class FirestoreProvider {
         .orderBy('createdAt', descending: true)
         .snapshots();
   }
+
+  Future<void> deletePost(Post post) {
+    return _firestore.document('posts/${post.id}').delete();
+  }
 }

@@ -23,7 +23,10 @@ class HomePage extends StatelessWidget {
             return ListView.builder(
               itemBuilder: (context, index) {
                 final post = posts[index];
-                return PostCell(post);
+                return PostCell(
+                  post: post,
+                  user: user,
+                );
               },
               itemCount: posts.length,
             );

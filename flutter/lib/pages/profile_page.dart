@@ -102,6 +102,7 @@ class ProfilePage extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => SinglePostPage(
                                 post: post,
+                                user: user,
                               ),
                             ),
                           );

@@ -137,7 +137,12 @@ class _ComposePostPageState extends State<ComposePostPage> {
   }
 
   Future<void> _selectImage() async {
-    _imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
+    _imageFile = await ImagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 720,
+      maxWidth: 720,
+      imageQuality: 80,
+    );
     setState(() {});
   }
 }
