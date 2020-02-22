@@ -14,6 +14,20 @@ class User {
     @required this.uid,
   });
 
+  User copyWith({
+    String name,
+    String profile,
+    String imageUrl,
+    String uid,
+  }) {
+    return User(
+      name: name ?? this.name,
+      profile: profile ?? this.profile,
+      imageUrl: imageUrl ?? this.imageUrl,
+      uid: uid ?? this.uid,
+    );
+  }
+
   User.fromSnapshot(DocumentSnapshot snapshot)
       : name = snapshot.data == null ? null : snapshot.data['name'],
         profile = snapshot.data == null ? null : snapshot.data['profile'],

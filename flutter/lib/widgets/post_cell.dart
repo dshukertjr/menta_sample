@@ -33,10 +33,12 @@ class PostCell extends StatelessWidget {
                   ),
                   SizedBox(width: 12),
                   Expanded(child: Text(post.user.name)),
-                  Text(
-                    timeago.format(post.createdAt, locale: 'en_short'),
-                    style: TextStyle(color: Colors.grey),
-                  ),
+                  post.createdAt == null
+                      ? Container()
+                      : Text(
+                          timeago.format(post.createdAt, locale: 'en_short'),
+                          style: TextStyle(color: Colors.grey),
+                        ),
                   if (user?.uid == post.user?.uid)
                     PopupMenuButton<String>(
                       onSelected: (val) {

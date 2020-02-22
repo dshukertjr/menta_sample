@@ -7,20 +7,15 @@ abstract class EditProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ChangeProfileImageEvent extends EditProfileEvent {
-  final File profileImageFile;
-
-  ChangeProfileImageEvent({this.profileImageFile});
-
-  @override
-  List<Object> get props => [profileImageFile];
-}
-
 class SaveProfileEvent extends EditProfileEvent {
   final User user;
+  final File profileImageFile;
 
-  SaveProfileEvent({@required this.user});
+  SaveProfileEvent({
+    @required this.user,
+    this.profileImageFile,
+  });
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [user, profileImageFile];
 }

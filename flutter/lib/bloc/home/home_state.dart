@@ -9,21 +9,34 @@ abstract class HomeState extends Equatable {
 
 class HomeInitial extends HomeState {}
 
-class LoadedHomeState extends HomeState {
+class LoadingMoreState extends HomeState {
   final List<Post> posts;
   final User user;
-  final bool loadingMorePosts;
 
-  LoadedHomeState({
-    @required this.posts,
-    @required this.user,
-    @required this.loadingMorePosts,
+  LoadingMoreState({
+    this.posts,
+    this.user,
   });
 
   @override
   List<Object> get props => [
         posts,
         user,
-        loadingMorePosts,
+      ];
+}
+
+class LoadedHomeState extends HomeState {
+  final List<Post> posts;
+  final User user;
+
+  LoadedHomeState({
+    @required this.posts,
+    @required this.user,
+  });
+
+  @override
+  List<Object> get props => [
+        posts,
+        user,
       ];
 }

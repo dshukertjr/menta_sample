@@ -17,4 +17,13 @@ class StorageProvider {
     final downloadUrl = await ref.getDownloadURL();
     return downloadUrl.toString();
   }
+
+  Future<String> uploadProfileImage(
+      {@required String uid, @required File imageFile}) async {
+    final ref = _storage.child('users/$uid/profile');
+    final task = ref.putFile(imageFile);
+    await task.onComplete;
+    final downloadUrl = await ref.getDownloadURL();
+    return downloadUrl.toString();
+  }
 }

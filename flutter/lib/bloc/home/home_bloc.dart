@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sample/models/post.dart';
 import 'package:sample/models/user.dart';
-import 'package:sample/pages/profile_page.dart';
 import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/repositories/user_repository.dart';
 
@@ -24,7 +23,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<Post> _posts;
   User _user;
-  bool _loadingMorePosts;
   StreamSubscription<List<Post>> _postsListener;
   StreamSubscription<FirebaseUser> _onAuthStateChangedListener;
   StreamSubscription<User> _userListener;
@@ -68,11 +66,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
   }
 
-  Stream<HomeState> _mapLoadMorePostsEventToState() async* {}
+  Stream<HomeState> _mapLoadMorePostsEventToState() async* {
+    yield LoadingMoreState(posts: _posts, user: _user);
+    _postsListener?.cancel();
+    _postsListener = postRepository.postsStream().listen((posts) {
+      _posts = posts;
+
+      add(UpdateHomeEvent());
+    });
+  }
 
   Stream<HomeState> _mapUpdateHomeEventToState() async* {
     yield LoadedHomeState(
-        posts: _posts, user: _user, loadingMorePosts: _loadingMorePosts);
+      posts: _posts,
+      user: _user,
+    );
   }
 
   @override

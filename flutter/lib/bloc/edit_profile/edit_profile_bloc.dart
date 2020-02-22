@@ -22,18 +22,22 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
   Stream<EditProfileState> mapEventToState(
     EditProfileEvent event,
   ) async* {
-    if (event is ChangeProfileImageEvent) {
-      yield* _mapChangeProfileImageEventToState(event.profileImageFile);
-    } else if (event is SaveProfileEvent) {
-      yield* _mapSaveProfileEventToState(event.user);
+    if (event is SaveProfileEvent) {
+      yield* _mapSaveProfileEventToState(
+        user: event.user,
+        profileImageFile: event.profileImageFile,
+      );
     }
   }
 
-  Stream<EditProfileState> _mapChangeProfileImageEventToState(
-      File file) async* {}
-
-  Stream<EditProfileState> _mapSaveProfileEventToState(User user) async* {
+  Stream<EditProfileState> _mapSaveProfileEventToState(
+      {User user, File profileImageFile}) async* {
     yield SavingProfileState();
+    if (profileImageFile != null) {
+      final profileImageUrl =
+          await userRepository.uploadProfileImage(profileImageFile);
+      user = user.copyWith(imageUrl: profileImageUrl);
+    }
     userRepository.saveUserProfile(user);
     yield EditProfileInitial();
   }

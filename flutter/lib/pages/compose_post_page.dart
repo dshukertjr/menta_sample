@@ -103,6 +103,7 @@ class _ComposePostPageState extends State<ComposePostPage> {
                         )
                       : Text('投稿'),
                   onPressed: () {
+                    FocusScope.of(context).unfocus(focusPrevious: true);
                     final result = _formKey.currentState.validate();
                     if (!result) {
                       return;
@@ -138,15 +139,12 @@ class _ComposePostPageState extends State<ComposePostPage> {
 
   Future<void> _selectImage() async {
     FocusScope.of(context).unfocus(focusPrevious: true);
-    print(_textController.text);
     _imageFile = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxHeight: 720,
       maxWidth: 720,
-      imageQuality: 80,
+      imageQuality: 75,
     );
-    print(_textController.text);
     setState(() {});
-    print(_textController.text);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,16 +13,34 @@ class ProfileImage extends StatelessWidget {
   final double size;
   final User user;
   final void Function() onTap;
+  final File imageFile;
 
   const ProfileImage({
     Key key,
     this.size = 50,
     @required this.user,
     this.onTap,
+    this.imageFile,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Widget child;
+    child = user?.imageUrl == null
+        ? _NoImage(size)
+        : CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: user.imageUrl,
+            placeholder: (context, imageUrl) =>
+                Center(child: CircularProgressIndicator()),
+            errorWidget: (context, imageUrl, err) => _NoImage(size),
+          );
+    if (imageFile != null) {
+      child = Image.file(
+        imageFile,
+        fit: BoxFit.cover,
+      );
+    }
     return SizedBox(
       width: size,
       height: size,
@@ -45,14 +65,7 @@ class ProfileImage extends StatelessWidget {
                     );
                   }
                 : onTap,
-            child: user?.imageUrl == null
-                ? _NoImage(size)
-                : CachedNetworkImage(
-                    imageUrl: user.imageUrl,
-                    placeholder: (context, imageUrl) =>
-                        Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, imageUrl, err) => _NoImage(size),
-                  ),
+            child: child,
           ),
         ),
       ),
