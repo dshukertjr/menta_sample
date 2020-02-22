@@ -37,7 +37,7 @@ class PostCell extends StatelessWidget {
                     timeago.format(post.createdAt, locale: 'en_short'),
                     style: TextStyle(color: Colors.grey),
                   ),
-                  if (user.uid == post.user.uid)
+                  if (user?.uid == post.user?.uid)
                     PopupMenuButton<String>(
                       onSelected: (val) {
                         if (val == 'delete') {
