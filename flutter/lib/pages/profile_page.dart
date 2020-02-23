@@ -1,10 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample/bloc/edit_profile/edit_profile_bloc.dart';
-import 'package:sample/bloc/profile/profile_bloc.dart';
+import 'package:sample/bloc/pages/edit_profile/edit_profile_bloc.dart';
+import 'package:sample/bloc/pages/profile/profile_bloc.dart';
+import 'package:sample/bloc/pages/single_post/single_post_bloc.dart';
 import 'package:sample/pages/edit_profile_page.dart';
 import 'package:sample/pages/single_post_page.dart';
+import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/repositories/user_repository.dart';
 import 'package:sample/widgets/post_image.dart';
 import 'package:sample/widgets/profile_image.dart';
@@ -100,16 +101,23 @@ class ProfilePage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SinglePostPage(
-                                post: post,
-                                user: user,
+                              builder: (context) =>
+                                  BlocProvider<SinglePostBloc>(
+                                create: (context) => SinglePostBloc(
+                                  postRepository:
+                                      RepositoryProvider.of<PostRepository>(
+                                          context),
+                                )..add(LoadPostEvent(post.id)),
+                                child: SinglePostPage(
+                                  post: post,
+                                  user: user,
+                                ),
                               ),
                             ),
                           );
                         },
                         child: PostImage(
                           post: post,
-                          fit: BoxFit.cover,
                         ),
                       );
                     },

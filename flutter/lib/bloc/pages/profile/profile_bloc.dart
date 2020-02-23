@@ -52,12 +52,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               userRepository.userStream(firebaseUser.uid).listen((user) {
             _user = user;
             add(UpdateProfileEvent());
-            _userPostsListener?.cancel();
-            _userPostsListener =
-                postRepository.userPostsStream(_user.uid).listen((posts) {
-              _userPosts = posts;
-              add(UpdateProfileEvent());
-            });
+          });
+          _userPostsListener?.cancel();
+          _userPostsListener =
+              postRepository.userPostsStream(firebaseUser.uid).listen((posts) {
+            _userPosts = posts;
+            add(UpdateProfileEvent());
           });
         }
       });

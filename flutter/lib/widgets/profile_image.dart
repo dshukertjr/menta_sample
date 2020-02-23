@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample/bloc/profile/profile_bloc.dart';
+import 'package:sample/bloc/pages/profile/profile_bloc.dart';
 import 'package:sample/models/user.dart';
 import 'package:sample/pages/profile_page.dart';
 import 'package:sample/repositories/post_repository.dart';

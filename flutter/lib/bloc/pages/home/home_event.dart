@@ -12,5 +12,17 @@ class SetupHomeEvent extends HomeEvent {}
 class LoadMorePostsEvent extends HomeEvent {}
 
 class UpdateHomeEvent extends HomeEvent {
-  UpdateHomeEvent();
+  final List<Post> posts;
+  final User user;
+
+  UpdateHomeEvent({
+    @required this.posts,
+    @required this.user,
+  });
+
+  @override
+  List<Object> get props => [
+        posts,
+        user,
+      ];
 }

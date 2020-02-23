@@ -35,6 +35,9 @@ class User {
         uid = snapshot.documentID;
 
   static User fromMap(dynamic map) {
+    if (map == null) {
+      return null;
+    }
     return User(
       name: map['name'],
       profile: map['profile'],

@@ -14,7 +14,7 @@ class PostRepository {
 
   int postLimit = 0;
   Stream<List<Post>> postsStream() {
-    postLimit += 3;
+    postLimit += 10;
     return _firestoreProvider.posts(postLimit).map<List<Post>>(
         (snapshot) => snapshot.documents.map<Post>(Post.fromSnapshot).toList());
   }
@@ -44,7 +44,21 @@ class PostRepository {
         (snapshot) => snapshot.documents.map<Post>(Post.fromSnapshot).toList());
   }
 
-  Future<void> deletePost(Post post) {
-    return _firestoreProvider.deletePost(post);
+  Future<void> deletePost(String postId) {
+    return _firestoreProvider.deletePost(postId);
+  }
+
+  Future<void> likePost(String postId) async {
+    final user = await _authProvider.currentUser();
+    return _firestoreProvider.likePost(postId: postId, uid: user.uid);
+  }
+
+  Future<void> unlikePost(String postId) async {
+    final user = await _authProvider.currentUser();
+    return _firestoreProvider.unlikePost(postId: postId, uid: user.uid);
+  }
+
+  Stream<Post> postStream(String postId) {
+    return _firestoreProvider.postStream(postId).map<Post>(Post.fromSnapshot);
   }
 }

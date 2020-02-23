@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sample/models/post.dart';
 import 'package:sample/models/user.dart';
+import 'package:sample/pages/profile_page.dart';
 import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/repositories/user_repository.dart';
 
@@ -47,7 +48,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _postsListener?.cancel();
     _postsListener = postRepository.postsStream().listen((posts) {
       _posts = posts;
-      add(UpdateHomeEvent());
+      add(UpdateHomeEvent(
+        posts: _posts,
+        user: _user,
+      ));
     });
 
     _onAuthStateChangedListener?.cancel();
@@ -59,7 +63,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             userRepository.userStream(firebaseUser.uid).listen((user) {
           _user = user;
           if (_posts != null) {
-            add(UpdateHomeEvent());
+            add(UpdateHomeEvent(
+              posts: _posts,
+              user: _user,
+            ));
           }
         });
       }
@@ -72,7 +79,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _postsListener = postRepository.postsStream().listen((posts) {
       _posts = posts;
 
-      add(UpdateHomeEvent());
+      add(UpdateHomeEvent(
+        posts: _posts,
+        user: _user,
+      ));
     });
   }
 

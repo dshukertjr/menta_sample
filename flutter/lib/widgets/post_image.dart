@@ -14,14 +14,11 @@ class PostImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: post,
-      child: CachedNetworkImage(
-        imageUrl: post.imageUrl,
-        fit: fit ?? BoxFit.cover,
-        placeholder: (context, imageUrl) =>
-            Center(child: CircularProgressIndicator()),
-      ),
+    return CachedNetworkImage(
+      imageUrl: post.imageUrl,
+      fit: fit ?? BoxFit.cover,
+      placeholder: (context, imageUrl) =>
+          Center(child: CircularProgressIndicator()),
     );
   }
 }

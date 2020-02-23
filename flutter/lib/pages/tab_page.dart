@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample/bloc/compose_post/compose_post_bloc.dart';
-import 'package:sample/bloc/home/home_bloc.dart';
-import 'package:sample/bloc/profile/profile_bloc.dart';
+import 'package:sample/bloc/pages/compose_post/compose_post_bloc.dart';
+import 'package:sample/bloc/pages/home/home_bloc.dart';
+import 'package:sample/bloc/pages/profile/profile_bloc.dart';
+import 'package:sample/bloc/widgets/post/post_bloc.dart';
 import 'package:sample/pages/compose_post_page.dart';
 import 'package:sample/pages/home_page.dart';
 import 'package:sample/pages/profile_page.dart';
@@ -30,11 +31,23 @@ class _TabPageState extends State<TabPage> {
         tabIndex: _tabIndex,
         drawer: Drawer(),
         pages: <Widget>[
-          BlocProvider<HomeBloc>(
-            create: (context) => HomeBloc(
-              userRepository: RepositoryProvider.of<UserRepository>(context),
-              postRepository: RepositoryProvider.of<PostRepository>(context),
-            )..add(SetupHomeEvent()),
+          MultiBlocProvider(
+            providers: [
+              BlocProvider<HomeBloc>(
+                create: (context) => HomeBloc(
+                  userRepository:
+                      RepositoryProvider.of<UserRepository>(context),
+                  postRepository:
+                      RepositoryProvider.of<PostRepository>(context),
+                )..add(SetupHomeEvent()),
+              ),
+              BlocProvider<PostBloc>(
+                create: (context) => PostBloc(
+                  postRepository:
+                      RepositoryProvider.of<PostRepository>(context),
+                ),
+              ),
+            ],
             child: HomePage(),
           ),
           BlocProvider(

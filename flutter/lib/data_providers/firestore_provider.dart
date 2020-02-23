@@ -53,7 +53,29 @@ class FirestoreProvider {
         .snapshots();
   }
 
-  Future<void> deletePost(Post post) {
-    return _firestore.document('posts/${post.id}').delete();
+  Future<void> deletePost(String postId) {
+    return _firestore.document('posts/$postId').delete();
+  }
+
+  Future<void> likePost({
+    @required String postId,
+    @required String uid,
+  }) {
+    return _firestore.document('posts/$postId').setData({
+      'likeArray': FieldValue.arrayUnion([uid])
+    }, merge: true);
+  }
+
+  Future<void> unlikePost({
+    @required String postId,
+    @required String uid,
+  }) {
+    return _firestore.document('posts/$postId').setData({
+      'likeArray': FieldValue.arrayRemove([uid])
+    }, merge: true);
+  }
+
+  Stream<DocumentSnapshot> postStream(String postId) {
+    return _firestore.document('posts/$postId').snapshots();
   }
 }

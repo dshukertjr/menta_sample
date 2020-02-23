@@ -1,7 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample/bloc/home/home_bloc.dart';
+import 'package:sample/bloc/pages/home/home_bloc.dart';
 import 'package:sample/widgets/post_cell.dart';
 
 class HomePage extends StatefulWidget {
