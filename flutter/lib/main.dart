@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sample/pages/tab_page.dart';
@@ -10,6 +12,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -19,6 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Sample',
+        navigatorObservers: <NavigatorObserver>[observer],
         theme: ThemeData(
           primaryColor: Colors.orange,
           primaryColorBrightness: Brightness.dark,
@@ -41,6 +48,8 @@ class MyApp extends StatelessWidget {
 }
 
 class SimpleBlocDelegate extends BlocDelegate {
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
+
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
@@ -51,6 +60,7 @@ class SimpleBlocDelegate extends BlocDelegate {
   void onEvent(Bloc bloc, Object event) {
     super.onEvent(bloc, event);
     print(event);
+    analytics.logEvent(name: event.toString());
   }
 
   @override
