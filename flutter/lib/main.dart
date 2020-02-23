@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
             textTheme: ButtonTextTheme.primary,
           ),
           snackBarTheme: SnackBarThemeData(
-            shape: CircleBorder(),
             behavior: SnackBarBehavior.floating,
           ),
         ),
