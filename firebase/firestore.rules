@@ -1,8 +1,30 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+  
+  	function liked(auth, oldLikeArray, likeArray) {
+    	return !(auth.uid in oldLikeArray)
+      && auth.uid in likeArray
+      && (oldLikeArray.size() + 1) == likeArray.size();
+    }
+  
+  	function unliked(auth, oldLikeArray, likeArray) {
+    	return auth.uid in oldLikeArray
+      && !(auth.uid in likeArray)
+      && oldLikeArray.size() == (likeArray.size() + 1);
+    }
+  
+  	match /users/{userId} {
+    	allow get: if request.auth != null;
+      allow create, update: if request.auth.uid == userId;
+    }
+    
+    match /posts/{postId} {
+			allow read: if request.auth != null;
+      // allow create, update: if request.auth.uid == request.resource.data.user.uid;
+      allow delete: if request.auth.uid == resource.data.user.uid;
+      allow update: if liked(request.auth, resource.data.likeArray, request.resource.data.likeArray)
+      || unliked(request.auth, resource.data.likeArray, request.resource.data.likeArray);
     }
   }
 }
