@@ -10,6 +10,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScrollController _scrollController;
+
+  // 追加で投稿をロードしているかどうか
+  // 最後までロードしたことを判定するのにも使う
+  bool _loadingMore = false;
+  int _postCount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +27,11 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           if (state is LoadedHomeState) {
             final posts = state.posts;
+            if (_postCount < posts.length) {
+              // もしロードされた投稿数が前にロードされた投稿数よりも多い場合はもっとロードできるようにする
+              _loadingMore = false;
+            }
+            _postCount = posts.length;
             final user = state.user;
             return ListView.builder(
               controller: _scrollController,
@@ -74,7 +85,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.extentAfter < 300) {
+    if (!_loadingMore && _scrollController.position.extentAfter < 200) {
+      _loadingMore = true;
       BlocProvider.of<HomeBloc>(context).add(LoadMorePostsEvent());
     }
   }

@@ -12,10 +12,10 @@ class PostRepository {
   final _authProvider = AuthProvider();
   final _storageProvider = StorageProvider();
 
-  int postLimit = 0;
+  int _postLimit = 0;
   Stream<List<Post>> postsStream() {
-    postLimit += 10;
-    return _firestoreProvider.posts(postLimit).map<List<Post>>(
+    _postLimit += 10;
+    return _firestoreProvider.posts(_postLimit).map<List<Post>>(
         (snapshot) => snapshot.documents.map<Post>(Post.fromSnapshot).toList());
   }
 
