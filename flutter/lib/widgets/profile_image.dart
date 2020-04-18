@@ -51,17 +51,7 @@ class ProfileImage extends StatelessWidget {
                 ? () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => BlocProvider<ProfileBloc>(
-                          create: (context) => ProfileBloc(
-                            userRepository:
-                                RepositoryProvider.of<UserRepository>(context),
-                            postRepository:
-                                RepositoryProvider.of<PostRepository>(context),
-                          )..add(LoadProfileEvent(uid: user.uid)),
-                          child: ProfilePage(),
-                        ),
-                      ),
+                      ProfilePage.route(user.uid),
                     );
                   }
                 : onTap,

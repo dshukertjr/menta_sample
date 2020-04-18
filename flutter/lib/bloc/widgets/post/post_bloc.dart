@@ -2,18 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:sample/repositories/post_repository.dart';
 
 part 'post_event.dart';
 part 'post_state.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  final PostRepository postRepository;
-
-  PostBloc({
-    @required this.postRepository,
-  });
+  final PostRepository postRepository = PostRepository();
 
   @override
   PostState get initialState => PostInitial();

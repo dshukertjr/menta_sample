@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sample/models/post.dart';
@@ -13,13 +12,8 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final UserRepository userRepository;
-  final PostRepository postRepository;
-
-  ProfileBloc({
-    @required this.userRepository,
-    @required this.postRepository,
-  });
+  final UserRepository userRepository = UserRepository();
+  final PostRepository postRepository = PostRepository();
 
   @override
   ProfileState get initialState => ProfileInitial();

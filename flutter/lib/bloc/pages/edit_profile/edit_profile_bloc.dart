@@ -11,9 +11,7 @@ part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
-  final UserRepository userRepository;
-
-  EditProfileBloc({@required this.userRepository});
+  final UserRepository userRepository = UserRepository();
 
   @override
   EditProfileState get initialState => EditProfileInitial();

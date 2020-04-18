@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sample/bloc/pages/edit_profile/edit_profile_bloc.dart';
 import 'package:sample/bloc/pages/profile/profile_bloc.dart';
-import 'package:sample/bloc/pages/single_post/single_post_bloc.dart';
 import 'package:sample/pages/edit_profile_page.dart';
 import 'package:sample/pages/single_post_page.dart';
-import 'package:sample/repositories/post_repository.dart';
-import 'package:sample/repositories/user_repository.dart';
 import 'package:sample/widgets/post_image.dart';
 import 'package:sample/widgets/profile_image.dart';
 
 class ProfilePage extends StatelessWidget {
+  static PageRoute<dynamic> route(String uid) {
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider<ProfileBloc>(
+        create: (context) => ProfileBloc()..add(LoadProfileEvent(uid: uid)),
+        child: ProfilePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,17 +31,7 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => BlocProvider<EditProfileBloc>(
-                          create: (context) => EditProfileBloc(
-                            userRepository:
-                                RepositoryProvider.of<UserRepository>(context),
-                          ),
-                          child: EditProfilePage(
-                            user: state.user,
-                          ),
-                        ),
-                      ),
+                      EditProfilePage.route(state.user),
                     );
                   },
                   child: Text('編集する'),
@@ -100,20 +95,7 @@ class ProfilePage extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  BlocProvider<SinglePostBloc>(
-                                create: (context) => SinglePostBloc(
-                                  postRepository:
-                                      RepositoryProvider.of<PostRepository>(
-                                          context),
-                                )..add(LoadPostEvent(post.id)),
-                                child: SinglePostPage(
-                                  post: post,
-                                  user: user,
-                                ),
-                              ),
-                            ),
+                            SinglePostPage.route(post: post, user: user),
                           );
                         },
                         child: PostImage(

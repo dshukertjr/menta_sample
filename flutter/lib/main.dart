@@ -18,31 +18,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (context) => UserRepository()),
-        RepositoryProvider(create: (context) => PostRepository()),
-      ],
-      child: MaterialApp(
-        title: 'Sample',
-        navigatorObservers: <NavigatorObserver>[observer],
-        theme: ThemeData(
-          primaryColor: Colors.orange,
-          primaryColorBrightness: Brightness.dark,
-          accentColor: Colors.lightBlue,
-          accentColorBrightness: Brightness.dark,
-          inputDecorationTheme: InputDecorationTheme(
-            border: OutlineInputBorder(),
-          ),
-          buttonTheme: ButtonThemeData(
-            textTheme: ButtonTextTheme.primary,
-          ),
-          snackBarTheme: SnackBarThemeData(
-            behavior: SnackBarBehavior.floating,
-          ),
+    return MaterialApp(
+      title: 'Sample',
+      navigatorObservers: <NavigatorObserver>[observer],
+      theme: ThemeData(
+        primaryColor: Colors.orange,
+        primaryColorBrightness: Brightness.dark,
+        accentColor: Colors.lightBlue,
+        accentColorBrightness: Brightness.dark,
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(),
         ),
-        home: TabPage(),
+        buttonTheme: ButtonThemeData(
+          textTheme: ButtonTextTheme.primary,
+        ),
+        snackBarTheme: SnackBarThemeData(
+          behavior: SnackBarBehavior.floating,
+        ),
       ),
+      home: TabPage(),
     );
   }
 }

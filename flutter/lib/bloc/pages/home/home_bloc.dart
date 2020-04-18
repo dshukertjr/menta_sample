@@ -13,13 +13,8 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final PostRepository postRepository;
-  final UserRepository userRepository;
-
-  HomeBloc({
-    @required this.postRepository,
-    @required this.userRepository,
-  });
+  final PostRepository postRepository = PostRepository();
+  final UserRepository userRepository = UserRepository();
 
   List<Post> _posts;
   User _user;

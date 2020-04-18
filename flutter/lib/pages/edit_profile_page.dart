@@ -8,6 +8,17 @@ import 'package:sample/models/user.dart';
 import 'package:sample/widgets/profile_image.dart';
 
 class EditProfilePage extends StatefulWidget {
+  static PageRoute<dynamic> route(User user) {
+    return MaterialPageRoute(
+      builder: (context) => BlocProvider<EditProfileBloc>(
+        create: (context) => EditProfileBloc(),
+        child: EditProfilePage(
+          user: user,
+        ),
+      ),
+    );
+  }
+
   final User user;
 
   const EditProfilePage({Key key, @required this.user}) : super(key: key);

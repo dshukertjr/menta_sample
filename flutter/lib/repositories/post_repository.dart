@@ -8,6 +8,14 @@ import 'package:sample/models/post.dart';
 import 'package:sample/models/user.dart';
 
 class PostRepository {
+  static final PostRepository _singleton = PostRepository._internal();
+
+  factory PostRepository() {
+    return _singleton;
+  }
+
+  PostRepository._internal();
+
   final _firestoreProvider = FirestoreProvider();
   final _authProvider = AuthProvider();
   final _storageProvider = StorageProvider();
