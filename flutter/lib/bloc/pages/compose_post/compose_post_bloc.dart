@@ -10,7 +10,9 @@ part 'compose_post_event.dart';
 part 'compose_post_state.dart';
 
 class ComposePostBloc extends Bloc<ComposePostEvent, ComposePostState> {
-  final PostRepository postRepository = PostRepository();
+  final PostRepository postRepository;
+
+  ComposePostBloc({@required this.postRepository});
 
   @override
   ComposePostState get initialState => ComposePostInitial();

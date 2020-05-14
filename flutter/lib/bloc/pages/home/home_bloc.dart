@@ -13,14 +13,19 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final PostRepository postRepository = PostRepository();
-  final UserRepository userRepository = UserRepository();
+  final PostRepository postRepository;
+  final UserRepository userRepository;
 
   List<Post> _posts;
   User _user;
   StreamSubscription<List<Post>> _postsListener;
   StreamSubscription<FirebaseUser> _onAuthStateChangedListener;
   StreamSubscription<User> _userListener;
+
+  HomeBloc({
+    @required this.postRepository,
+    @required this.userRepository,
+  });
 
   @override
   HomeState get initialState => HomeInitial();

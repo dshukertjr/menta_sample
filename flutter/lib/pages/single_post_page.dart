@@ -4,6 +4,7 @@ import 'package:sample/bloc/pages/single_post/single_post_bloc.dart';
 import 'package:sample/bloc/widgets/post/post_bloc.dart';
 import 'package:sample/models/post.dart';
 import 'package:sample/models/user.dart';
+import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/widgets/post_cell.dart';
 
 class SinglePostPage extends StatelessWidget {
@@ -13,7 +14,9 @@ class SinglePostPage extends StatelessWidget {
   }) {
     return MaterialPageRoute(
       builder: (context) => BlocProvider<SinglePostBloc>(
-        create: (context) => SinglePostBloc()..add(LoadPostEvent(post.id)),
+        create: (context) => SinglePostBloc(
+          postRepository: RepositoryProvider.of<PostRepository>(context),
+        )..add(LoadPostEvent(post.id)),
         child: SinglePostPage(
           post: post,
           user: user,

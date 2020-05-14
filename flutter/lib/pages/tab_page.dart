@@ -8,6 +8,8 @@ import 'package:sample/bloc/widgets/post/post_bloc.dart';
 import 'package:sample/pages/compose_post_page.dart';
 import 'package:sample/pages/home_page.dart';
 import 'package:sample/pages/profile_page.dart';
+import 'package:sample/repositories/post_repository.dart';
+import 'package:sample/repositories/user_repository.dart';
 import 'package:tab_scaffold/tab_scaffold.dart';
 
 class TabPage extends StatefulWidget {
@@ -32,7 +34,12 @@ class _TabPageState extends State<TabPage> {
           MultiBlocProvider(
             providers: [
               BlocProvider<HomeBloc>(
-                create: (context) => HomeBloc()..add(SetupHomeEvent()),
+                create: (context) => HomeBloc(
+                  userRepository:
+                      RepositoryProvider.of<UserRepository>(context),
+                  postRepository:
+                      RepositoryProvider.of<PostRepository>(context),
+                )..add(SetupHomeEvent()),
               ),
               BlocProvider<PostBloc>(
                 create: (context) => PostBloc(),
@@ -41,12 +48,15 @@ class _TabPageState extends State<TabPage> {
             child: HomePage(),
           ),
           BlocProvider(
-            create: (context) => ComposePostBloc(),
+            create: (context) => ComposePostBloc(
+                postRepository: RepositoryProvider.of<PostRepository>(context)),
             child: ComposePostPage(),
           ),
           BlocProvider<ProfileBloc>(
-            create: (context) =>
-                ProfileBloc()..add(LoadProfileEvent(uid: null)),
+            create: (context) => ProfileBloc(
+              userRepository: RepositoryProvider.of<UserRepository>(context),
+              postRepository: RepositoryProvider.of<PostRepository>(context),
+            )..add(LoadProfileEvent(uid: null)),
             child: ProfilePage(),
           ),
         ],

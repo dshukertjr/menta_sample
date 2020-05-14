@@ -12,8 +12,13 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final UserRepository userRepository = UserRepository();
-  final PostRepository postRepository = PostRepository();
+  final UserRepository userRepository;
+  final PostRepository postRepository;
+
+  ProfileBloc({
+    @required this.userRepository,
+    @required this.postRepository,
+  });
 
   @override
   ProfileState get initialState => ProfileInitial();

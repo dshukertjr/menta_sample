@@ -7,14 +7,6 @@ import 'package:sample/data_providers/storage_provider.dart';
 import 'package:sample/models/user.dart';
 
 class UserRepository {
-  static final UserRepository _singleton = UserRepository._internal();
-
-  factory UserRepository() {
-    return _singleton;
-  }
-
-  UserRepository._internal();
-
   final _firestoreProfider = FirestoreProvider();
   final _authProvider = AuthProvider();
   final _storageProvider = StorageProvider();

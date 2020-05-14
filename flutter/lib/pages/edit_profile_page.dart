@@ -5,13 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sample/bloc/pages/edit_profile/edit_profile_bloc.dart';
 import 'package:sample/models/user.dart';
+import 'package:sample/repositories/user_repository.dart';
 import 'package:sample/widgets/profile_image.dart';
 
 class EditProfilePage extends StatefulWidget {
   static PageRoute<dynamic> route(User user) {
     return MaterialPageRoute(
       builder: (context) => BlocProvider<EditProfileBloc>(
-        create: (context) => EditProfileBloc(),
+        create: (context) => EditProfileBloc(
+            userRepository: RepositoryProvider.of<UserRepository>(context)),
         child: EditProfilePage(
           user: user,
         ),
@@ -126,7 +128,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void _changeProfileImage() async {
-    FocusScope.of(context).unfocus(focusPrevious: true);
+    FocusScope.of(context).unfocus();
     _newProfileImageFile = await ImagePicker.pickImage(
       source: ImageSource.gallery,
       maxHeight: 300,
