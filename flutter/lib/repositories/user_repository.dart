@@ -27,9 +27,7 @@ class UserRepository {
   }
 
   Stream<User> userStream(String uid) {
-    return _firestoreProfider
-        .userDocStream(uid)
-        .map((userDoc) => User.fromMap(userDoc.data));
+    return _firestoreProfider.userDocStream(uid).map(User.fromSnap);
   }
 
   Future<String> uploadProfileImage(File imageFile) async {

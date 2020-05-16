@@ -16,8 +16,8 @@ class UpdateHomeEvent extends HomeEvent {
   final User user;
 
   UpdateHomeEvent({
-    @required this.posts,
-    @required this.user,
+    this.posts,
+    this.user,
   });
 
   @override

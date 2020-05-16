@@ -49,7 +49,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       _posts = posts;
       add(UpdateHomeEvent(
         posts: _posts,
-        user: _user,
       ));
     });
 
@@ -63,7 +62,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           _user = user;
           if (_posts != null) {
             add(UpdateHomeEvent(
-              posts: _posts,
               user: _user,
             ));
           }
@@ -86,10 +84,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _mapUpdateHomeEventToState() async* {
-    yield LoadedHomeState(
-      posts: _posts,
-      user: _user,
-    );
+    if (_posts != null && _user != null) {
+      yield LoadedHomeState(
+        posts: _posts,
+        user: _user,
+      );
+    }
   }
 
   @override

@@ -46,6 +46,16 @@ class User {
     );
   }
 
+  static User fromSnap(DocumentSnapshot snap) {
+    final map = snap.data ?? {};
+    return User(
+      uid: snap.documentID,
+      name: map['name'],
+      profile: map['profile'],
+      imageUrl: map['imageUrl'],
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,
