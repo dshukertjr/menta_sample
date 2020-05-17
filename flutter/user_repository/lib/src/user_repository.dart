@@ -9,6 +9,8 @@ abstract class UserRepository {
 
   Future<String> getUid();
 
+  Future<void> signInIfNotSignedIn();
+
   Future<User> getUser();
 
   Future<void> saveUserProfile(User user);

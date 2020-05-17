@@ -28,9 +28,9 @@ class User extends Equatable {
 
   static User fromSnap(DocumentSnapshot snap) {
     return User(
-      name: snap.data['name'],
-      profile: snap.data['profile'],
-      imageUrl: snap.data['imageUrl'],
+      name: (snap.data ?? {})['name'],
+      profile: (snap.data ?? {})['profile'],
+      imageUrl: (snap.data ?? {})['imageUrl'],
       uid: snap.documentID,
     );
   }

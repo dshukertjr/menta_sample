@@ -14,12 +14,12 @@ class FirebaseUserRepository implements UserRepository {
 
   @override
   Future<String> getUid() async {
-    return (await _auth.currentUser()).uid;
+    return (await _auth.currentUser())?.uid;
   }
 
   @override
   Future<User> getUser() async {
-    final uid = getUid();
+    final uid = await getUid();
     final doc = await _firestore.document('users/$uid').get();
     return User.fromSnap(doc);
   }
@@ -40,8 +40,8 @@ class FirebaseUserRepository implements UserRepository {
     final uid = await getUid();
     final ref = _storage.ref().child('users/$uid/profile');
     final task = ref.putFile(imageFile);
-    await task.onComplete;
-    return ref.getDownloadURL() as Future<String>;
+    final snap = await task.onComplete;
+    return snap.ref.getDownloadURL() as Future<String>;
   }
 
   @override
@@ -50,5 +50,13 @@ class FirebaseUserRepository implements UserRepository {
         .document('users/$uid')
         .snapshots()
         .map((snap) => User.fromSnap(snap));
+  }
+
+  @override
+  Future<void> signInIfNotSignedIn() async {
+    final firebaseUser = await _auth.currentUser();
+    if (firebaseUser == null) {
+      await _auth.signInAnonymously();
+    }
   }
 }

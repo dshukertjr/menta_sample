@@ -34,6 +34,7 @@ class FirebasePostRepository implements PostRepository {
   @override
   Stream<List<Post>> postsStream() {
     return _postsCollection
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) => snap.documents.map(Post.fromSnap).toList());
   }
@@ -47,8 +48,8 @@ class FirebasePostRepository implements PostRepository {
     final postId = _postsCollection.document().documentID;
     final ref = _storage.ref().child('posts/${user.uid}/$postId/post');
     final task = ref.putFile(imageFile);
-    await task.onComplete;
-    final imageUrl = await ref.getDownloadURL();
+    final snap = await task.onComplete;
+    final imageUrl = await snap.ref.getDownloadURL();
     final post = Post(
       text: text,
       user: user,

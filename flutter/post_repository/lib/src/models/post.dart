@@ -35,8 +35,8 @@ class Post extends Equatable {
       user: User.fromJson(snap.data['user'] as Map),
       imageUrl: snap.data['imageUrl'] as String,
       text: snap.data['text'] as String,
-      likeArray: snap.data['likeArray'] as List<String>,
-      createdAt: snap.data['createdAt'].toDate() as DateTime,
+      likeArray: List<String>.from(snap.data['likeArray']),
+      createdAt: snap.data['createdAt']?.toDate() as DateTime,
     );
   }
 

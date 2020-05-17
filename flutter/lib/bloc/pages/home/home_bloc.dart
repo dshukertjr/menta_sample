@@ -42,6 +42,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _mapSetupHomeEventToState() async* {
+    await userRepository.signInIfNotSignedIn();
+
     _postsListener?.cancel();
     _postsListener = postRepository.postsStream().listen((posts) {
       _posts = posts;
