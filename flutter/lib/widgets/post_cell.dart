@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:post_repository/post_repository.dart';
 import 'package:sample/bloc/widgets/post/post_bloc.dart';
-import 'package:sample/models/post.dart';
-import 'package:sample/models/user.dart';
-import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/widgets/post_image.dart';
 import 'package:sample/widgets/profile_image.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:user_repository/user_repository.dart';
 
 class PostCell extends StatelessWidget {
   final Post post;

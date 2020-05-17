@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sample/bloc/pages/edit_profile/edit_profile_bloc.dart';
-import 'package:sample/models/user.dart';
-import 'package:sample/repositories/user_repository.dart';
 import 'package:sample/widgets/profile_image.dart';
+import 'package:user_repository/user_repository.dart';
 
 class EditProfilePage extends StatefulWidget {
   static PageRoute<dynamic> route(User user) {

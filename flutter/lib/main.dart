@@ -2,9 +2,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:post_repository/post_repository.dart';
 import 'package:sample/pages/tab_page.dart';
-import 'package:sample/repositories/post_repository.dart';
-import 'package:sample/repositories/user_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<UserRepository>(
-          create: (context) => UserRepository(),
+          create: (context) => FirebaseUserRepository(),
         ),
         RepositoryProvider<PostRepository>(
-          create: (context) => PostRepository(),
+          create: (context) => FirebasePostRepository(),
         ),
       ],
       child: MaterialApp(

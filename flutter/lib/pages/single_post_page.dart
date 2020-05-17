@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:post_repository/post_repository.dart';
 import 'package:sample/bloc/pages/single_post/single_post_bloc.dart';
 import 'package:sample/bloc/widgets/post/post_bloc.dart';
-import 'package:sample/models/post.dart';
-import 'package:sample/models/user.dart';
-import 'package:sample/repositories/post_repository.dart';
 import 'package:sample/widgets/post_cell.dart';
+import 'package:user_repository/user_repository.dart';
 
 class SinglePostPage extends StatelessWidget {
   static PageRoute<dynamic> route({
@@ -43,7 +42,10 @@ class SinglePostPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: BlocProvider(
-          create: (context) => PostBloc(),
+          create: (context) => PostBloc(
+            userRepository: RepositoryProvider.of<UserRepository>(context),
+            postRepository: RepositoryProvider.of<PostRepository>(context),
+          ),
           child: BlocBuilder<SinglePostBloc, SinglePostState>(
               builder: (context, state) {
             if (state is LoadedPostState) {

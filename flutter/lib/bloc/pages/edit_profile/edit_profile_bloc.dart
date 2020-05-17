@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sample/models/user.dart';
-import 'package:sample/repositories/user_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';

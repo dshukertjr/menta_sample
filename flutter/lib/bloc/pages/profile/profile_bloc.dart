@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sample/models/post.dart';
-import 'package:sample/models/user.dart';
-import 'package:sample/repositories/post_repository.dart';
-import 'package:sample/repositories/user_repository.dart';
+import 'package:post_repository/post_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';

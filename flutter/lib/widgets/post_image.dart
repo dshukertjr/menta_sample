@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:sample/models/post.dart';
+import 'package:post_repository/post_repository.dart';
 
 class PostImage extends StatelessWidget {
   final Post post;

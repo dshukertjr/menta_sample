@@ -4,15 +4,20 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sample/repositories/post_repository.dart';
+import 'package:post_repository/post_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'compose_post_event.dart';
 part 'compose_post_state.dart';
 
 class ComposePostBloc extends Bloc<ComposePostEvent, ComposePostState> {
   final PostRepository postRepository;
+  final UserRepository userRepository;
 
-  ComposePostBloc({@required this.postRepository});
+  ComposePostBloc({
+    @required this.postRepository,
+    @required this.userRepository,
+  });
 
   @override
   ComposePostState get initialState => ComposePostInitial();
@@ -32,9 +37,11 @@ class ComposePostBloc extends Bloc<ComposePostEvent, ComposePostState> {
   Stream<ComposePostState> _mapComposeEventToState(
       {@required String text, @required File imageFile}) async* {
     yield SubmittingPostState();
+    final user = await userRepository.getUser();
     await postRepository.submitPost(
       text: text,
       imageFile: imageFile,
+      user: user,
     );
     yield ComposePostInitial();
   }

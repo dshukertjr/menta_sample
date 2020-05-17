@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:post_repository/post_repository.dart';
 import 'package:sample/bloc/pages/compose_post/compose_post_bloc.dart';
 import 'package:sample/bloc/pages/home/home_bloc.dart';
 import 'package:sample/bloc/pages/profile/profile_bloc.dart';
@@ -8,9 +9,8 @@ import 'package:sample/bloc/widgets/post/post_bloc.dart';
 import 'package:sample/pages/compose_post_page.dart';
 import 'package:sample/pages/home_page.dart';
 import 'package:sample/pages/profile_page.dart';
-import 'package:sample/repositories/post_repository.dart';
-import 'package:sample/repositories/user_repository.dart';
 import 'package:tab_scaffold/tab_scaffold.dart';
+import 'package:user_repository/user_repository.dart';
 
 class TabPage extends StatefulWidget {
   @override
@@ -42,14 +42,21 @@ class _TabPageState extends State<TabPage> {
                 )..add(SetupHomeEvent()),
               ),
               BlocProvider<PostBloc>(
-                create: (context) => PostBloc(),
+                create: (context) => PostBloc(
+                  userRepository:
+                      RepositoryProvider.of<UserRepository>(context),
+                  postRepository:
+                      RepositoryProvider.of<PostRepository>(context),
+                ),
               ),
             ],
             child: HomePage(),
           ),
           BlocProvider(
             create: (context) => ComposePostBloc(
-                postRepository: RepositoryProvider.of<PostRepository>(context)),
+              userRepository: RepositoryProvider.of<UserRepository>(context),
+              postRepository: RepositoryProvider.of<PostRepository>(context),
+            ),
             child: ComposePostPage(),
           ),
           BlocProvider<ProfileBloc>(

@@ -2,13 +2,21 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sample/repositories/post_repository.dart';
+import 'package:flutter/foundation.dart';
+import 'package:post_repository/post_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'post_event.dart';
 part 'post_state.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  final PostRepository postRepository = PostRepository();
+  final PostRepository postRepository;
+  final UserRepository userRepository;
+
+  PostBloc({
+    @required this.postRepository,
+    @required this.userRepository,
+  });
 
   @override
   PostState get initialState => PostInitial();
@@ -31,10 +39,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   }
 
   Stream<PostState> _mapLikedPostEventToState(String postId) async* {
-    postRepository.likePost(postId);
+    final uid = await userRepository.getUid();
+    postRepository.likePost(
+      postId: postId,
+      uid: uid,
+    );
   }
 
   Stream<PostState> _mapUnlikedPostEventToState(String postId) async* {
-    postRepository.unlikePost(postId);
+    final uid = await userRepository.getUid();
+    postRepository.unlikePost(
+      postId: postId,
+      uid: uid,
+    );
   }
 }

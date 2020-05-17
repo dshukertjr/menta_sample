@@ -12,6 +12,20 @@ class User extends Equatable {
   @override
   List<Object> get props => [name, profile, imageUrl, uid];
 
+  User copyWith({
+    String name,
+    String profile,
+    String imageUrl,
+    String uid,
+  }) {
+    return User(
+      name: name ?? this.name,
+      profile: profile ?? this.profile,
+      imageUrl: imageUrl ?? this.imageUrl,
+      uid: uid ?? this.uid,
+    );
+  }
+
   static User fromSnap(DocumentSnapshot snap) {
     return User(
       name: snap.data['name'],
